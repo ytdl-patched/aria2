@@ -57,8 +57,8 @@ jobs:
       run: |
         echo -e '#!/bin/bash\n./config.guess' | tee ./config.sub ./deps/wslay/config.sub
         ./configure \
-          CPPFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address" \ 
-          --prefix=$PWD/aria2c-prebuilt
+          --prefix=$PWD/aria2c-prebuilt \
+          CPPFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address"
     - name: Configure autotools (macOS)
       if: runner.os == 'macOS'
       run: |
