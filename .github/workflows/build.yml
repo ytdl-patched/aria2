@@ -10,6 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-20.04, macos-10.15]
         compiler: [gcc, clang]
@@ -61,7 +62,7 @@ jobs:
       run: |
         ./configure \
           --without-openssl --without-gnutls --with-appletls \
-          --disable-nls --prefix=./aria2c-prebuilt \
+          --disable-nls --prefix=$(pwd)/aria2c-prebuilt \
           CPPFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address"
     - name: Build aria2
       run: |
