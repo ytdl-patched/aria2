@@ -58,9 +58,18 @@ jobs:
       run: |
         ./configure \
           --without-openssl --without-gnutls --with-appletls \
-          --disable-nls \
+          --disable-nls --prefix=./aria2c-prebuilt \
           CPPFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address"
     - name: Build aria2
       run: |
         make
+        make install
         make check
+    - name: Compose aria2
+      run: |
+        tar -czvf aria2c-"${{runner.os}}"-"${{matrix.compiler}}".tar.gz aria2c-prebuilt/
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: aria2c-${{runner.os}}-${{matrix.compiler}}
+        path: aria2c-${{runner.os}}-${{matrix.compiler}}.tar.gz
