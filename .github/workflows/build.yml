@@ -55,7 +55,7 @@ jobs:
     - name: Configure autotools (Linux)
       if: runner.os == 'Linux'
       run: |
-        echo -e '#!/bin/bash\n./config.guess' > ./config.sub
+        echo -e '#!/bin/bash\n./config.guess' | tee ./config.sub ./deps/wslay/config.sub
         ./configure \
           CPPFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address" \ 
           --prefix=$PWD/aria2c-prebuilt
