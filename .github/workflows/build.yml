@@ -66,7 +66,7 @@ jobs:
           CPPFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address"
     - name: Build aria2
       run: |
-        make
+        make -j8
         make install
         make check
     - name: Compose aria2
