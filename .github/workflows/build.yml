@@ -55,11 +55,10 @@ jobs:
     - name: Configure autotools (Linux)
       if: runner.os == 'Linux'
       run: |
+        echo -e '#!/bin/bash\n./config.guess' > ./config.sub
         ./configure \
           CPPFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address" \ 
-          --prefix=$PWD/aria2c-prebuilt \
-          --build=$(dpkg-architecture -qDEB_BUILD_GNU_TYPE) \
-          --host=amd64
+          --prefix=$PWD/aria2c-prebuilt
     - name: Configure autotools (macOS)
       if: runner.os == 'macOS'
       run: |
