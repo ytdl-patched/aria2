@@ -57,8 +57,9 @@ jobs:
       run: |
         ./configure \
           CPPFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address" \ 
-          --prefix=$(pwd)/aria2c-prebuilt \
-          --build=x86_64 --host=x86_64-pc-linux-gnu --target=x86_64-pc-linux-gnu
+          --prefix=$PWD/aria2c-prebuilt \
+          --build=$(dpkg-architecture -qDEB_BUILD_GNU_TYPE) \
+          --host=amd64
     - name: Configure autotools (macOS)
       if: runner.os == 'macOS'
       run: |
