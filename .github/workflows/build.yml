@@ -56,19 +56,21 @@ jobs:
       if: runner.os == 'Linux'
       run: |
         ./configure \
-          CPPFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address"
+          CPPFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address" \ 
+          --prefix=$(pwd)/aria2c-prebuilt \
+          --build=x86_64 --host=x86_64-pc-linux-gnu --target=x86_64-pc-linux-gnu
     - name: Configure autotools (macOS)
       if: runner.os == 'macOS'
       run: |
         ./configure \
           --without-openssl --without-gnutls --with-appletls \
-          --disable-nls --prefix=$(pwd)/aria2c-prebuilt \
+          --disable-nls \
+          --prefix=$(pwd)/aria2c-prebuilt PREFIX=$(pwd)/aria2c-prebuilt \
           CPPFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address"
     - name: Build aria2
       run: |
         make -j8
-        make install
-        make check
+        PREFIX=$(pwd)/aria2c-prebuilt make install
     - name: Compose aria2
       run: |
         tar -czvf aria2c-"${{runner.os}}"-"${{matrix.compiler}}".tar.gz aria2c-prebuilt/
